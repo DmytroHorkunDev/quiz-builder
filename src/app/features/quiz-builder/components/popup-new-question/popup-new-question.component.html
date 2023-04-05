@@ -1,0 +1,39 @@
+<app-base-popup
+  [title]="'Add a new Question'"
+  [submitButton]="{
+    type: 'submit',
+    text: 'Submit',
+    isDisabled: newQuestionForm.invalid,
+    icon: '✅'
+  }"
+  (fireEv)="defineBasePopupEvent($event)"
+>
+  <form [formGroup]="newQuestionForm">
+    <mat-radio-group
+      class="mb-5 block"
+      formControlName="answerType">
+      <mat-radio-button *ngFor="let type of answerTypes" [value]="type.value">
+        {{ type.label }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field class="mb-3 block" color="accent" appearance="outline">
+      <mat-label>Your question here</mat-label>
+      <input [container]="containerDir.container" formControlName="question" matInput placeholder="How you can describe...">
+    </mat-form-field>
+    <ng-container validatorMessageContainer #containerDir="validatorMessageContainer"></ng-container>
+
+    <ng-container *ngIf="!(isParagraphType$ | async)">
+      <app-dynamic-checklist></app-dynamic-checklist>
+    </ng-container>
+
+    <fieldset [formGroup]="optionsGroup">
+      <legend class="text-sm font-medium">Additional options</legend>
+
+      <mat-checkbox *ngFor="let option of questionOptions" [formControlName]="option.controlName">
+        {{option.label}}
+      </mat-checkbox>
+    </fieldset>
+
+  </form>
+</app-base-popup>
