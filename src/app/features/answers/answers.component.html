@@ -1,8 +1,8 @@
 <ng-container *ngIf="(review$ | async | keyvalue) as reviews">
-  <h2 class="text-center">Here you can find your answers for the quiz ✅</h2>
+  <h2 class="text-center">Here you can find your answers for the quiz 🪄</h2>
 
   <fieldset *ngIf="reviews.length" class="my-3 rounded shadow p-4">
-    <ng-container *ngFor="let review of  reviews">
+    <ng-container *ngFor="let review of reviews">
       <h3>Q№: {{ review.key }}</h3>
 
       <hr class="my-2">
