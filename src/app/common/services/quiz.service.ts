@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, share } from 'rxjs';
 
 import { DynamicFormConfig } from '../../shared/dynamic-form/models/dynamic-forms.model';
 import { Answer, CheckboxAnswer, TextAnswer } from '../models/answer.model';
@@ -18,12 +18,14 @@ export class QuizService<T> {
   }
 
   public get reviewData$(): Observable<Map<string, Partial<TQuizReviewAnswer>>>{
-    return this._reviewData.asObservable();
+    return this._reviewData.asObservable().pipe(
+      share()
+    );
   }
 
-  public get quizSize(): number {
-    return this._quizSet.getValue().reduce((acc, q) => acc + Object.keys(q.controls).length, 0);
-  }
+  public quizSize$: Observable<number> = this._quizSet.asObservable().pipe(
+    map(quizSet => quizSet.reduce((acc, q) => acc + Object.keys(q.controls).length, 0))
+  );
 
   public addQuestion(formConfig: Omit<DynamicFormConfig<T>, 'id'> ): void{
     const currentValue = this._quizSet.getValue();

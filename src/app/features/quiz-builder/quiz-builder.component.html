@@ -1,29 +1,13 @@
-<div class="h-full">
-  <div class="max-w-md mx-auto">
-    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()"  class="shadow rounded p-5 bg-white">
-      <h2 class="text-center">Hi, below you can create a quiz!👇</h2>
+<form [formGroup]="quizForm" (ngSubmit)="onSubmit()"  class="shadow rounded p-5 bg-white">
+  <h2 class="text-center">Hi, below you can create a quiz!👇</h2>
 
-      <div class="flex items-center justify-center mb-3">
-        <button type="button" (click)="addNewQuestion()" mat-stroked-button color="primary">Add new question ➕</button>
-      </div>
-
-      <app-dynamic-form [(form)]="quizForm"></app-dynamic-form>
-
-      <div *ngIf="(review$ | async)?.size" class="flex items-center justify-center mt-2">
-        <button [disabled]="quizForm.invalid" mat-raised-button color="primary">Review my answers 👉</button>
-      </div>
-    </form>
-
-    <ng-container *ngIf="(review$ | async | keyvalue) as reviews">
-      <fieldset *ngIf="reviews.length" class="my-3 rounded shadow p-4">
-        <ng-container *ngFor="let review of  reviews">
-          <h3>Q№: {{ review.key }}</h3>
-
-          <hr class="my-2">
-
-          <pre> {{ review.value | json }} </pre>
-        </ng-container>
-      </fieldset>
-    </ng-container>
+  <div class="flex items-center justify-center mb-3">
+    <button type="button" (click)="addNewQuestion()" mat-stroked-button color="primary">Add new question ➕</button>
   </div>
-</div>
+
+  <app-dynamic-form [(form)]="quizForm"></app-dynamic-form>
+
+  <div *ngIf="!!(size$ | async)" class="flex items-center justify-center mt-2">
+    <button [disabled]="quizForm.invalid" mat-raised-button color="primary">Review my answers 👉</button>
+  </div>
+</form>
